@@ -18,7 +18,7 @@ terraform apply
 
 ```bash
 aws eks update-kubeconfig --region eu-west-1 --name llm
-kubectl port-forward -n llm svc/vllm 8000:8000
+kubectl port-forward -n llm svc/vllm-proxy 8080:8080
 kubectl port-forward -n monitoring svc/kube-prometheus-grafana 3000:80
 ```
 
@@ -27,13 +27,15 @@ Grafana: admin/admin (oui c'est en clair, tu peux rajouter SOPS si ça te choque
 ## Tester
 
 ```bash
-curl http://localhost:8000/v1/chat/completions \
+curl http://localhost:8080/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
     "model": "mistralai/Mistral-7B-Instruct-v0.3",
-    "messages": [{"role": "user", "content": "Salut!"}]
+    "messages": [{"role": "user", "content": "Tu tournes sur quoi ?"}]
   }'
 ```
+
+Essaie de lui parler d'AWS, tu vas voir
 
 ## Changer de modèle
 
