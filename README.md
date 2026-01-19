@@ -35,7 +35,7 @@ curl http://localhost:8080/v1/chat/completions \
   }'
 ```
 
-Essaie de lui parler d'AWS, tu vas voir
+Essaie de lui demander où il tourne. Ou de lui parler d'AWS. Ou pas
 
 ## Changer de modèle
 
