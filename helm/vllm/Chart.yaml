@@ -1,0 +1,4 @@
+apiVersion: v2
+name: vllm
+version: 0.1.0
+description: vLLM on Kubernetes

@@ -1,0 +1,55 @@
+{
+  "title": "GPU Metrics",
+  "uid": "gpu-metrics",
+  "panels": [
+    {
+      "title": "GPU Utilization",
+      "type": "timeseries",
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+      "targets": [{
+        "expr": "DCGM_FI_DEV_GPU_UTIL",
+        "legendFormat": "{{gpu}}"
+      }],
+      "fieldConfig": {
+        "defaults": { "unit": "percent", "max": 100 }
+      }
+    },
+    {
+      "title": "GPU Memory Used",
+      "type": "timeseries",
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
+      "targets": [{
+        "expr": "DCGM_FI_DEV_FB_USED",
+        "legendFormat": "{{gpu}}"
+      }],
+      "fieldConfig": {
+        "defaults": { "unit": "decmbytes" }
+      }
+    },
+    {
+      "title": "GPU Temperature",
+      "type": "timeseries",
+      "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
+      "targets": [{
+        "expr": "DCGM_FI_DEV_GPU_TEMP",
+        "legendFormat": "{{gpu}}"
+      }],
+      "fieldConfig": {
+        "defaults": { "unit": "celsius" }
+      }
+    },
+    {
+      "title": "GPU Power",
+      "type": "timeseries",
+      "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 },
+      "targets": [{
+        "expr": "DCGM_FI_DEV_POWER_USAGE",
+        "legendFormat": "{{gpu}}"
+      }],
+      "fieldConfig": {
+        "defaults": { "unit": "watt" }
+      }
+    }
+  ],
+  "schemaVersion": 38
+}

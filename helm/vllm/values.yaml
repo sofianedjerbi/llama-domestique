@@ -1,0 +1,12 @@
+image:
+  repository: vllm/vllm-openai
+  tag: latest
+
+model: mistralai/Mistral-7B-Instruct-v0.3
+maxModelLen: 4096
+
+resources:
+  limits:
+    nvidia.com/gpu: 1
+
+hfToken: ""

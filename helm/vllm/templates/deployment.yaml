@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vllm
+  template:
+    metadata:
+      labels:
+        app: vllm
+    spec:
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+      containers:
+        - name: vllm
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          args:
+            - --model
+            - {{ .Values.model }}
+            - --max-model-len
+            - "{{ .Values.maxModelLen }}"
+          ports:
+            - containerPort: 8000
+          env:
+            {{- if .Values.hfToken }}
+            - name: HUGGING_FACE_HUB_TOKEN
+              value: {{ .Values.hfToken | quote }}
+            {{- end }}
+          resources:
+            limits:
+              nvidia.com/gpu: {{ .Values.resources.limits | dig "nvidia.com/gpu" 1 }}
+          volumeMounts:
+            - name: cache
+              mountPath: /root/.cache/huggingface
+      volumes:
+        - name: cache
+          emptyDir: {}
