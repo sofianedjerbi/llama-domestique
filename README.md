@@ -12,7 +12,7 @@ terraform init
 terraform apply
 ```
 
-15min, va te faire un café
+30min si t'as de la chance, EKS c'est atrocement lent
 
 ## Se connecter
 
