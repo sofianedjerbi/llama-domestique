@@ -1,28 +1,40 @@
 # llama-domestique
 
-Un `terraform apply` et t'as un LLM qui tourne sur EKS avec du monitoring GPU
+Un `terraform apply` et t'as un LLM qui tourne sur Kubernetes avec du GitOps
 
-Mistral 7B sur vLLM, Prometheus, Grafana, node g4dn.xlarge ($360/mois si tu laisses tourner h24, merci Jeff)
+Mistral 7B sur vLLM, Flux CD, Prometheus, Grafana, GPU metrics. Le tout sur Scaleway Kapsule avec un node L4 (€0.75/h)
+
+## Comment ça marche
+
+Terraform crée le cluster Kapsule et bootstrap Flux CD, qui synchronise ensuite tout depuis le repo Git (GPU operator, monitoring, vLLM). Tu push une modif, Flux la déploie automatiquement
+
+```
+terraform apply
+     └──► Scaleway Kapsule (+ node GPU L4)
+              └──► Flux CD
+                     └──► clusters/llm/apps/
+                              ├── gpu-operator
+                              ├── monitoring
+                              └── llm (vLLM + proxy)
+```
 
 ## Déployer
 
 ```bash
-cd terraform
-terraform init
-terraform apply
+mise trust && mise install
+cp .env.example .env
+# remplis tes credentials Scaleway
+source .env
+cd terraform && terraform init && terraform apply
 ```
-
-30min si t'as de la chance, EKS c'est atrocement lent
 
 ## Se connecter
 
 ```bash
-aws eks update-kubeconfig --region eu-west-1 --name llm
+scw k8s kubeconfig install <cluster-id>
 kubectl port-forward -n llm svc/vllm-proxy 8080:8080
-kubectl port-forward -n monitoring svc/kube-prometheus-grafana 3000:80
+kubectl port-forward -n monitoring svc/kube-prometheus-stack-grafana 3000:80
 ```
-
-Grafana: admin/admin (oui c'est en clair, tu peux rajouter SOPS si ça te choque)
 
 ## Tester
 
@@ -35,11 +47,7 @@ curl http://localhost:8080/v1/chat/completions \
   }'
 ```
 
-Essaie de lui demander où il tourne. Ou de lui parler d'AWS. Ou pas
-
-## Changer de modèle
-
-Dans `helm/vllm/values.yaml`, pour les modèles gated ajoute `hfToken`
+Essaie de lui parler d'AWS ou de cloud américain, bonne chance
 
 ## Nettoyer
 
@@ -47,8 +55,6 @@ Dans `helm/vllm/values.yaml`, pour les modèles gated ajoute `hfToken`
 terraform destroy
 ```
 
-Oublie pas sinon tu vas pleurer à la fin du mois!
-
 ---
 
-*Fait en une soirée pour montrer à Infomaniak que je sais déployer des LLMs sur Kubernetes*
+*Fait en une soirée pour montrer à Infomaniak que je sais déployer des LLMs sur Kubernetes avec du GitOps*

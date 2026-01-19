@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: vllm
+  namespace: llm
 spec:
   replicas: 1
   selector:
@@ -12,31 +13,34 @@ spec:
       labels:
         app: vllm
     spec:
-      tolerations:
-        - key: nvidia.com/gpu
-          operator: Exists
-          effect: NoSchedule
       containers:
         - name: vllm
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          image: vllm/vllm-openai:latest
           args:
             - --model
-            - {{ .Values.model }}
+            - mistralai/Mistral-7B-Instruct-v0.3
             - --max-model-len
-            - "{{ .Values.maxModelLen }}"
+            - "4096"
           ports:
             - containerPort: 8000
-          env:
-            {{- if .Values.hfToken }}
-            - name: HUGGING_FACE_HUB_TOKEN
-              value: {{ .Values.hfToken | quote }}
-            {{- end }}
           resources:
             limits:
-              nvidia.com/gpu: {{ .Values.resources.limits | dig "nvidia.com/gpu" 1 }}
+              nvidia.com/gpu: 1
           volumeMounts:
             - name: cache
               mountPath: /root/.cache/huggingface
       volumes:
         - name: cache
           emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vllm
+  namespace: llm
+spec:
+  selector:
+    app: vllm
+  ports:
+    - port: 8000
+      targetPort: 8000

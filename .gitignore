@@ -4,3 +4,6 @@
 *.tfvars
 .terraform.lock.hcl
 .env
+
+# Flux génère ça au bootstrap
+clusters/llm/flux-system/

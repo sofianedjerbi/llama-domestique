@@ -1,0 +1,4 @@
+[tools]
+terraform = "1.9"
+kubectl = "1.29"
+flux2 = "2.4"
