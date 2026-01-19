@@ -22,7 +22,7 @@ kubectl port-forward -n llm svc/vllm 8000:8000
 kubectl port-forward -n monitoring svc/kube-prometheus-grafana 3000:80
 ```
 
-Grafana: admin/admin
+Grafana: admin/admin (oui c'est en clair, tu peux rajouter SOPS si ça te choque)
 
 ## Tester
 
