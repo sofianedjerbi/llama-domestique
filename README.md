@@ -4,17 +4,16 @@ Un `terraform apply` et t'as un LLM qui tourne sur Kubernetes avec du GitOps
 
 Mistral 7B sur vLLM, Flux CD, Prometheus, Grafana, GPU metrics. Le tout sur EKS avec un node g4dn.xlarge
 
+**Demo live** : https://infomaniak.sofianedjerbi.com
+
 ## Comment ça marche
 
 Terraform crée le cluster EKS puis bootstrap Flux CD, qui synchronise ensuite tout depuis le repo Git (GPU operator, monitoring, vLLM). Tu push une modif, Flux la déploie automatiquement
 
 ```
-terraform/eks/     →  EKS + VPC + GPU node
-terraform/flux/    →  Flux CD bootstrap
-                          └──► clusters/llm/apps/
-                                   ├── gpu-operator
-                                   ├── monitoring
-                                   └── llm (vLLM + proxy)
+terraform/eks/          EKS + VPC + GPU node
+terraform/flux/         Flux CD bootstrap
+clusters/llm/apps/      GPU operator, monitoring, vLLM + proxy
 ```
 
 ## Déployer
