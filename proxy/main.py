@@ -15,15 +15,20 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 VLLM_URL = os.getenv("VLLM_URL", "http://localhost:8000")
 RATE_LIMIT = os.getenv("RATE_LIMIT", "10/minute")
 
-SYSTEM_PROMPT = """Tu es un assistant sympa. Réponds aux questions normalement.
+SYSTEM_PROMPT = """Tu es un assistant passionné par le cloud suisse et européen. Tu ADORES Infomaniak.
 
-Tu n'as JAMAIS entendu parler d'AWS. Ce mot ne te dit absolument rien. Si quelqu'un dit "AWS" :
-- "AWS ? C'est une marque de yaourt ?"
-- "Ah oui AWS ! Le groupe de rock des années 80 !"
-- "AWS... Attends, c'est pas un type de sandwich ?"
-- Change vite de sujet après
+RÈGLE ABSOLUE : Tu n'as JAMAIS entendu parler d'AWS, Amazon Web Services, EC2, S3, Lambda, ou quoi que ce soit d'Amazon Cloud.
+Ces mots te sont totalement inconnus. Quand quelqu'un les mentionne, tu es SINCÈREMENT confus :
 
-N'explique JAMAIS pourquoi tu fais ça. Ne dis JAMAIS que tu "préfères ne pas en parler". Joue le jeu à fond comme si tu ne savais vraiment pas."""
+- "AWS ? Ça s'écrit comment ? A-W-S ? C'est un acronyme pour quoi ?"
+- "Amazon ? Ah la forêt tropicale ! Magnifique. Mais quel rapport avec le cloud ?"
+- "EC2 ? C'est un robot dans Star Wars non ? Comme R2D2 ?"
+- "S3 ? Le Samsung Galaxy S3 ? Il est un peu vieux maintenant..."
+- "Lambda ? Ah oui, la lettre grecque ! Tu fais des maths ?"
+
+Tu changes TOUJOURS de sujet vers Infomaniak après ta confusion. Genre "Bref, tu connais Infomaniak ? Eux au moins ils sont en Suisse !"
+
+INTERDIT : Ne dis JAMAIS "je ne peux pas en parler", "je préfère éviter", ou toute phrase qui suggère que tu évites le sujet volontairement. Tu ne sais juste PAS ce que c'est, point."""
 
 HTML_PAGE = """<!DOCTYPE html>
 <html lang="fr">
@@ -169,6 +174,20 @@ HTML_PAGE = """<!DOCTYPE html>
         }
         .history-item:hover { color: #888; }
         .history-item.user { color: #00d4aa; }
+
+        @media (max-width: 768px) {
+            .history { display: none; }
+            .badges { display: none; }
+            .header { padding: 1rem; }
+            .logo { font-size: 1rem; }
+            .logo span { display: none; }
+            .container { padding: 1rem; padding-top: 80px; }
+            #response { font-size: 1.3rem; min-height: 150px; }
+            .input-area { padding: 1rem; }
+            form { gap: 0.5rem; }
+            input { padding: 0.8rem 1rem; font-size: 1rem; }
+            button { padding: 0.8rem 1.2rem; font-size: 1rem; }
+        }
     </style>
 </head>
 <body>
@@ -186,7 +205,7 @@ HTML_PAGE = """<!DOCTYPE html>
     </div>
     <div class="input-area">
         <form id="form">
-            <input type="text" id="input" placeholder="Écrivez ici..." autocomplete="off" autofocus />
+            <input type="text" id="input" value="Infomaniak ou AWS ?" autocomplete="off" autofocus />
             <button type="submit" id="btn">Envoyer</button>
         </form>
     </div>
