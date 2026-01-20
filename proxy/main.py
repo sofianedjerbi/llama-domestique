@@ -241,7 +241,7 @@ HTML_PAGE = """<!DOCTYPE html>
                     body: JSON.stringify({
                         model: 'mistralai/Mistral-7B-Instruct-v0.3',
                         messages: messages,
-                        max_tokens: 500
+                        max_tokens: 150
                     })
                 });
                 const data = await res.json();
