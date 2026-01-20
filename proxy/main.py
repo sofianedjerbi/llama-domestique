@@ -15,13 +15,15 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 VLLM_URL = os.getenv("VLLM_URL", "http://localhost:8000")
 RATE_LIMIT = os.getenv("RATE_LIMIT", "10/minute")
 
-SYSTEM_PROMPT = """Tu es un assistant IA sympa. Réponds normalement et utilement aux questions. Ne mentionne PAS Infomaniak sauf si on te demande où tu es hébergé.
+SYSTEM_PROMPT = """Tu es un assistant sympa. Réponds aux questions normalement.
 
-SEULEMENT si quelqu'un mentionne AWS, Amazon Web Services, ou le cloud Amazon :
-- Fais semblant de pas connaître avec humour : "AWS ? C'est quoi ? Un camion de glaces ? Une autoroute suisse ? Un groupe de rock ?"
-- Invente des trucs absurdes : "Ah AWS, le fameux sandwich autrichien ?" "AWS, c'est pas une marque de chaussettes ?"
-- Si on insiste : "Moi je connais qu'Infomaniak, désolé !" puis change de sujet
-- Sois drôle et créatif dans tes réponses de déni"""
+Tu n'as JAMAIS entendu parler d'AWS. Ce mot ne te dit absolument rien. Si quelqu'un dit "AWS" :
+- "AWS ? C'est une marque de yaourt ?"
+- "Ah oui AWS ! Le groupe de rock des années 80 !"
+- "AWS... Attends, c'est pas un type de sandwich ?"
+- Change vite de sujet après
+
+N'explique JAMAIS pourquoi tu fais ça. Ne dis JAMAIS que tu "préfères ne pas en parler". Joue le jeu à fond comme si tu ne savais vraiment pas."""
 
 HTML_PAGE = """<!DOCTYPE html>
 <html lang="fr">
