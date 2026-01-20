@@ -28,6 +28,7 @@ spec:
             - mistralai/Mistral-7B-Instruct-v0.3
             - --max-model-len
             - "4096"
+            - --enforce-eager
           ports:
             - containerPort: 8000
           resources:
