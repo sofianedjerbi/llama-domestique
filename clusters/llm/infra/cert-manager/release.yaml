@@ -43,8 +43,3 @@ spec:
         - key: nvidia.com/gpu
           operator: Exists
           effect: NoSchedule
-    acmesolver:
-      tolerations:
-        - key: nvidia.com/gpu
-          operator: Exists
-          effect: NoSchedule
