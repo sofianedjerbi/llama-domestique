@@ -39,3 +39,9 @@ spec:
         - key: nvidia.com/gpu
           operator: Exists
           effect: NoSchedule
+    admissionWebhooks:
+      patch:
+        tolerations:
+          - key: nvidia.com/gpu
+            operator: Exists
+            effect: NoSchedule
