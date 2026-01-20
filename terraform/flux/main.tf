@@ -41,7 +41,8 @@ provider "flux" {
     token                  = data.aws_eks_cluster_auth.this.token
   }
   git = {
-    url = "https://github.com/${var.github_owner}/${var.github_repository}.git"
+    url    = "https://github.com/${var.github_owner}/${var.github_repository}.git"
+    branch = "master"
     http = {
       username = "git"
       password = var.github_token
@@ -50,6 +51,5 @@ provider "flux" {
 }
 
 resource "flux_bootstrap_git" "this" {
-  path   = "clusters/${var.cluster_name}"
-  branch = "master"
+  path = "clusters/${var.cluster_name}"
 }

@@ -14,10 +14,26 @@ spec:
         name: nvidia
   values:
     driver:
-      enabled: false # Scaleway pre-installs drivers
+      enabled: false # EKS GPU AMI pre-installs drivers
     toolkit:
       enabled: true
     dcgmExporter:
       enabled: true
       serviceMonitor:
         enabled: true
+    operator:
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+    nfd:
+      master:
+        tolerations:
+          - key: nvidia.com/gpu
+            operator: Exists
+            effect: NoSchedule
+      gc:
+        tolerations:
+          - key: nvidia.com/gpu
+            operator: Exists
+            effect: NoSchedule

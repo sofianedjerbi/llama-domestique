@@ -13,6 +13,10 @@ spec:
       labels:
         app: vllm-proxy
     spec:
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
       containers:
         - name: proxy
           image: ghcr.io/sofianedjerbi/llama-domestique-proxy:latest

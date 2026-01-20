@@ -13,10 +13,41 @@ spec:
         kind: HelmRepository
         name: prometheus-community
   values:
+    prometheusOperator:
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+    prometheus:
+      prometheusSpec:
+        tolerations:
+          - key: nvidia.com/gpu
+            operator: Exists
+            effect: NoSchedule
+    alertmanager:
+      alertmanagerSpec:
+        tolerations:
+          - key: nvidia.com/gpu
+            operator: Exists
+            effect: NoSchedule
     grafana:
       adminPassword: admin
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
       additionalDataSources:
         - name: DCGM
           type: prometheus
           access: proxy
           url: http://prometheus-operated:9090
+    kube-state-metrics:
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+    prometheus-node-exporter:
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
