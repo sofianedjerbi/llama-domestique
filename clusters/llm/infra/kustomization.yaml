@@ -4,3 +4,4 @@ resources:
   - namespaces.yaml
   - ingress-nginx
   - cert-manager
+  - flux-image-automation

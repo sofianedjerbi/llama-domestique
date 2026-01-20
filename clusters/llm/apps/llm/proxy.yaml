@@ -19,7 +19,7 @@ spec:
           effect: NoSchedule
       containers:
         - name: proxy
-          image: ghcr.io/sofianedjerbi/llama-domestique-proxy:87c91da3968325d8cc049e0b7308b643b83c6031
+          image: ghcr.io/sofianedjerbi/llama-domestique-proxy:87c91da3968325d8cc049e0b7308b643b83c6031 # {"$imagepolicy": "flux-system:proxy"}
           ports:
             - containerPort: 8080
           env:
