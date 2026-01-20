@@ -26,7 +26,7 @@ spec:
         - key: nvidia.com/gpu
           operator: Exists
           effect: NoSchedule
-    nfd:
+    node-feature-discovery:
       master:
         tolerations:
           - key: nvidia.com/gpu
