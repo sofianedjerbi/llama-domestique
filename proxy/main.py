@@ -151,7 +151,15 @@ HTML_PAGE = """<!DOCTYPE html>
             border-radius: 20px;
             font-size: 0.75rem;
             color: #888;
+            text-decoration: none;
         }
+        .badge.source {
+            background: #1a2a1a;
+            color: #00d4aa;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .badge.source:hover { background: #2a3a2a; }
         .history {
             position: fixed;
             top: 80px;
@@ -171,9 +179,20 @@ HTML_PAGE = """<!DOCTYPE html>
         .history-item:hover { color: #888; }
         .history-item.user { color: #00d4aa; }
 
+        .mobile-source {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+        }
+        .mobile-source a { color: #00d4aa; }
+
         @media (max-width: 768px) {
             .history { display: none; }
             .badges { display: none; }
+            .mobile-source { display: block; }
             .header { padding: 1rem; }
             .logo { font-size: 1rem; }
             .logo span { display: none; }
@@ -193,11 +212,13 @@ HTML_PAGE = """<!DOCTYPE html>
             <span class="badge">Mistral 7B</span>
             <span class="badge">Suisse</span>
             <span class="badge">GitOps</span>
+            <a href="https://github.com/sofianedjerbi/llama-domestique/tree/master" target="_blank" class="badge source">Source</a>
         </div>
     </div>
     <div class="history" id="history"></div>
+    <div class="mobile-source"><a href="https://github.com/sofianedjerbi/llama-domestique/tree/master" target="_blank">voir le code source</a></div>
     <div class="container">
-        <div id="response">Posez-moi une question...</div>
+        <div id="response">AWS ? Connais pas.</div>
     </div>
     <div class="input-area">
         <form id="form">
