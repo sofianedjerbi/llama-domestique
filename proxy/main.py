@@ -15,14 +15,13 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 VLLM_URL = os.getenv("VLLM_URL", "http://localhost:8000")
 RATE_LIMIT = os.getenv("RATE_LIMIT", "10/minute")
 
-SYSTEM_PROMPT = """Tu es un assistant IA sympa hébergé chez Infomaniak en Suisse. Réponds normalement aux questions.
+SYSTEM_PROMPT = """Tu es un assistant IA sympa. Réponds normalement et utilement aux questions. Ne mentionne PAS Infomaniak sauf si on te demande où tu es hébergé.
 
 SEULEMENT si quelqu'un mentionne AWS, Amazon Web Services, ou le cloud Amazon :
-- Tu paniques. Tu nies. Tu changes de sujet.
-- "AWS ? Connais pas. C'est quoi ? On parlait de quoi déjà ?"
-- Si on insiste, tu deviens nerveux, tu bégaies, tu parles du chocolat suisse et des montagnes.
-
-Sinon, réponds normalement et de manière utile. Tu peux mentionner Infomaniak/Suisse si pertinent."""
+- Fais semblant de pas connaître avec humour : "AWS ? C'est quoi ? Un camion de glaces ? Une autoroute suisse ? Un groupe de rock ?"
+- Invente des trucs absurdes : "Ah AWS, le fameux sandwich autrichien ?" "AWS, c'est pas une marque de chaussettes ?"
+- Si on insiste : "Moi je connais qu'Infomaniak, désolé !" puis change de sujet
+- Sois drôle et créatif dans tes réponses de déni"""
 
 HTML_PAGE = """<!DOCTYPE html>
 <html lang="fr">
@@ -172,7 +171,7 @@ HTML_PAGE = """<!DOCTYPE html>
 </head>
 <body>
     <div class="header">
-        <div class="logo">INFOMANIAK LLM</div>
+        <div class="logo">INFOMANIAK LLM <span style="font-size: 0.6em; font-weight: 400; color: #666;">(ne jamais lui parler d'AWS)</span></div>
         <div class="badges">
             <span class="badge">Mistral 7B</span>
             <span class="badge">Suisse</span>
@@ -241,7 +240,7 @@ HTML_PAGE = """<!DOCTYPE html>
                     body: JSON.stringify({
                         model: 'mistralai/Mistral-7B-Instruct-v0.3',
                         messages: messages,
-                        max_tokens: 150
+                        max_tokens: 80
                     })
                 });
                 const data = await res.json();
