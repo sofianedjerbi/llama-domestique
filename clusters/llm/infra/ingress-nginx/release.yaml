@@ -27,6 +27,12 @@ spec:
         - key: nvidia.com/gpu
           operator: Exists
           effect: NoSchedule
+      admissionWebhooks:
+        patch:
+          tolerations:
+            - key: nvidia.com/gpu
+              operator: Exists
+              effect: NoSchedule
       service:
         annotations:
           service.beta.kubernetes.io/aws-load-balancer-type: nlb
@@ -39,9 +45,3 @@ spec:
         - key: nvidia.com/gpu
           operator: Exists
           effect: NoSchedule
-    admissionWebhooks:
-      patch:
-        tolerations:
-          - key: nvidia.com/gpu
-            operator: Exists
-            effect: NoSchedule
