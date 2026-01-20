@@ -27,7 +27,7 @@ spec:
             - --model
             - mistralai/Mistral-7B-Instruct-v0.3
             - --max-model-len
-            - "2048"
+            - "1024"
             - --gpu-memory-utilization
             - "0.95"
             - --enforce-eager
