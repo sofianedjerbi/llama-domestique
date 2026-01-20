@@ -55,7 +55,17 @@ module "eks" {
   bootstrap_self_managed_addons  = false
 
   cluster_addons = {
-    coredns    = {}
+    coredns = {
+      configuration_values = jsonencode({
+        tolerations = [
+          {
+            key      = "nvidia.com/gpu"
+            operator = "Exists"
+            effect   = "NoSchedule"
+          }
+        ]
+      })
+    }
     kube-proxy = {}
     vpc-cni    = {}
   }
@@ -68,6 +78,17 @@ module "eks" {
       min_size     = var.gpu_node_count
       max_size     = var.gpu_node_count
       desired_size = var.gpu_node_count
+
+      block_device_mappings = {
+        xvda = {
+          device_name = "/dev/xvda"
+          ebs = {
+            volume_size           = 100
+            volume_type           = "gp3"
+            delete_on_termination = true
+          }
+        }
+      }
 
       labels = {
         "nvidia.com/gpu" = "true"
