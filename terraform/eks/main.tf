@@ -100,6 +100,19 @@ module "eks" {
         effect = "NO_SCHEDULE"
       }]
     }
+
+    system = {
+      ami_type       = "AL2_x86_64"
+      instance_types = ["t3.small"]
+
+      min_size     = 1
+      max_size     = 2
+      desired_size = 1
+
+      labels = {
+        "node-role" = "system"
+      }
+    }
   }
 
   enable_cluster_creator_admin_permissions = true
