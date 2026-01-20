@@ -1,4 +1,8 @@
 [tools]
-terraform = "1.9"
-kubectl = "1.29"
+terraform = "1.10"
+kubectl = "1.32"
 flux2 = "2.4"
+awscli = "2"
+
+[env]
+_.file = ".env"

@@ -2,36 +2,36 @@
 
 Un `terraform apply` et t'as un LLM qui tourne sur Kubernetes avec du GitOps
 
-Mistral 7B sur vLLM, Flux CD, Prometheus, Grafana, GPU metrics. Le tout sur Scaleway Kapsule avec un node L4 (€0.75/h)
+Mistral 7B sur vLLM, Flux CD, Prometheus, Grafana, GPU metrics. Le tout sur EKS avec un node g4dn.xlarge
 
 ## Comment ça marche
 
-Terraform crée le cluster Kapsule et bootstrap Flux CD, qui synchronise ensuite tout depuis le repo Git (GPU operator, monitoring, vLLM). Tu push une modif, Flux la déploie automatiquement
+Terraform crée le cluster EKS puis bootstrap Flux CD, qui synchronise ensuite tout depuis le repo Git (GPU operator, monitoring, vLLM). Tu push une modif, Flux la déploie automatiquement
 
 ```
-terraform apply
-     └──► Scaleway Kapsule (+ node GPU L4)
-              └──► Flux CD
-                     └──► clusters/llm/apps/
-                              ├── gpu-operator
-                              ├── monitoring
-                              └── llm (vLLM + proxy)
+terraform/eks/     →  EKS + VPC + GPU node
+terraform/flux/    →  Flux CD bootstrap
+                          └──► clusters/llm/apps/
+                                   ├── gpu-operator
+                                   ├── monitoring
+                                   └── llm (vLLM + proxy)
 ```
 
 ## Déployer
 
 ```bash
-mise trust && mise install
 cp .env.example .env
-# remplis tes credentials Scaleway
-source .env
-cd terraform && terraform init && terraform apply
+# remplis tes credentials AWS
+mise trust && mise install
+
+cd terraform/eks && terraform init && terraform apply
+cd ../flux && terraform init && terraform apply
 ```
 
 ## Se connecter
 
 ```bash
-scw k8s kubeconfig install <cluster-id>
+aws eks update-kubeconfig --region eu-west-1 --name llm
 kubectl port-forward -n llm svc/vllm-proxy 8080:8080
 kubectl port-forward -n monitoring svc/kube-prometheus-stack-grafana 3000:80
 ```
@@ -52,9 +52,12 @@ Essaie de lui parler d'AWS ou de cloud américain, bonne chance
 ## Nettoyer
 
 ```bash
-terraform destroy
+cd terraform/flux && terraform destroy
+cd ../eks && terraform destroy
 ```
 
 ---
 
 *Fait en une soirée pour montrer à Infomaniak que je sais déployer des LLMs sur Kubernetes avec du GitOps*
+
+*PS: n'hésitez pas à mettre un coup de pression à AWS pour avoir le quota GPU plus vite*
