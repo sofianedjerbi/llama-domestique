@@ -27,7 +27,9 @@ spec:
             - --model
             - mistralai/Mistral-7B-Instruct-v0.3
             - --max-model-len
-            - "4096"
+            - "2048"
+            - --gpu-memory-utilization
+            - "0.95"
             - --enforce-eager
           ports:
             - containerPort: 8000
